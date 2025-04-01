@@ -18,11 +18,11 @@ docker run --rm -d \
 if docker ps | grep -q mcp-atlassian; then
   echo "✅ Container started successfully. MCP server available at http://localhost:9001/sse"
   echo "You can now enable the 'Atlassian-MCP' server in VS Code's MCP Server Manager"
-  
+
   # Wait for server to fully initialize
   echo "Waiting for server to initialize (5 seconds)..."
   sleep 5
-  
+
   # Display logs to help with debugging
   echo "Recent container logs (for debugging):"
   docker logs mcp-atlassian --tail 20
