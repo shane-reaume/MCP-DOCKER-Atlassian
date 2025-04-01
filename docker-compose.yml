@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  mcp-atlassian:
+    build: .
+    container_name: mcp-atlassian
+    ports:
+      - "9001:9001"
+    env_file:
+      - .env
+    command: ["--transport", "sse", "--port", "9001"]
+    restart: unless-stopped

@@ -78,3 +78,13 @@ CLAUDE.md
 # repomix
 .repomixignore
 repomix.config.json
+
+# Environment variables with credentials
+.env
+.env.bak
+
+# Docker
+.dockerignore
+
+# Backup files
+*.bak
