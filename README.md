@@ -4,7 +4,7 @@ Docker-based setup for the MCP Atlassian integration to use with VS Code's Copil
 
 This repository contains configuration and scripts to easily run the MCP Atlassian server in a Docker container, providing access to Confluence and Jira resources via the Model Context Protocol.
 
-> **Note:** There are some known MyPy type checking issues inherited from the upstream project. These are documented in `.pre-commit-config.yaml` and don't affect functionality. They will be addressed in future updates.
+> **Note:** Previous MyPy type checking issues inherited from the upstream project have been resolved. The type checking system is now fully functional and passing all checks.
 
 ## Prerequisites
 

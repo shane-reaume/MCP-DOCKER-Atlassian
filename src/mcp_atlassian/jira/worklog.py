@@ -149,21 +149,24 @@ class WorklogMixin(JiraClient):
             logger.error(f"Error adding worklog to issue {issue_key}: {str(e)}")
             raise Exception(f"Error adding worklog: {str(e)}") from e
 
-    def get_worklog(self, issue_key: str) -> dict[str, Any]:
+    def get_worklog(self, issue_key: str) -> dict:
         """
-        Get the worklog data for an issue.
+        Get worklog entries for a Jira issue.
 
         Args:
-            issue_key: The issue key (e.g. 'PROJ-123')
+            issue_key: The key of the issue
 
         Returns:
-            Raw worklog data from the API
+            Dictionary containing worklog entries
         """
         try:
+            # type: ignore[attr-defined]
             return self.jira.worklog(issue_key)
         except Exception as e:
-            logger.warning(f"Error getting worklog for {issue_key}: {e}")
-            return {"worklogs": []}
+            logger.error(f"Error getting worklog for issue {issue_key}: {str(e)}")
+            raise Exception(
+                f"Error getting worklog for issue {issue_key}: {str(e)}"
+            ) from e
 
     def get_worklog_models(self, issue_key: str) -> list[JiraWorklog]:
         """

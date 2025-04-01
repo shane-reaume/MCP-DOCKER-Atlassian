@@ -745,11 +745,9 @@ class IssuesMixin(UsersMixin):
                     else:
                         update_fields[key] = value
 
-            # Update the issue
+            # First update any fields if needed
             if update_fields:
-                self.jira.update_issue(
-                    issue_key=issue_key, update={"fields": update_fields}
-                )
+                self.jira.update_issue(issue_key=issue_key, **update_fields)
 
             # Get the updated issue data and convert to JiraIssue model
             issue_data = self.jira.get_issue(issue_key)
@@ -781,7 +779,7 @@ class IssuesMixin(UsersMixin):
 
         # First update any fields if needed
         if fields:
-            self.jira.update_issue(issue_key=issue_key, fields=fields)
+            self.jira.update_issue(issue_key=issue_key, **fields)
 
         # If no status change is requested, return the issue
         if not status:
@@ -789,7 +787,16 @@ class IssuesMixin(UsersMixin):
             return JiraIssue.from_api_response(issue_data)
 
         # Get available transitions
-        transitions = self.get_available_transitions(issue_key)
+        try:
+            # type: ignore[attr-defined]
+            transitions = self.jira.issue_transitions(issue_key)
+            if isinstance(transitions, dict) and "transitions" in transitions:
+                return transitions["transitions"]
+        except Exception as e:
+            logger.error(f"Error getting transitions for issue {issue_key}: {str(e)}")
+            raise Exception(
+                f"Error getting transitions for issue {issue_key}: {str(e)}"
+            ) from e
 
         # Extract status name or ID depending on what we received
         status_name = None
@@ -1091,7 +1098,8 @@ class IssuesMixin(UsersMixin):
             Exception: If there is an error getting transitions
         """
         try:
-            transitions = self.jira.issue_get_transitions(issue_key)
+            # type: ignore[attr-defined]
+            transitions = self.jira.issue_transitions(issue_key)
             if isinstance(transitions, dict) and "transitions" in transitions:
                 return transitions["transitions"]
             return transitions

@@ -149,7 +149,8 @@ class FieldsMixin(JiraClient):
         """
         try:
             # Create meta provides field requirements for different issue types
-            create_meta = self.jira.createmeta(
+            # type: ignore[attr-defined]
+            create_meta = self.jira.createmeta_issue_types(
                 projectKeys=project_key,
                 issuetypeNames=issue_type,
                 expand="projects.issuetypes.fields",
