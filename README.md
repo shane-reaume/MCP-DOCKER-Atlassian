@@ -37,12 +37,19 @@ This repository contains configuration and scripts to easily run the MCP Atlassi
    ```
 
 4. **Start the MCP server:**
+
    ```bash
    ./start-mcp.sh
    ```
-   The server will be available at http://localhost:9001/sse
 
-5. **Configure VS Code:**
+   The server will be available at http://localhost:9001/sse
+   **Stop the MCP server:**
+
+   ```bash
+   ./stop-mcp.sh
+   ```
+
+6. **Configure VS Code:**
    Add this to your VS Code `settings.json`:
    ```json
    "mcpManager.servers": [
@@ -55,7 +62,7 @@ This repository contains configuration and scripts to easily run the MCP Atlassi
    ]
    ```
 
-6. **Stop the server when done:**
+7. **Stop the server when done:**
    ```bash
    ./stop-mcp.sh
    ```
